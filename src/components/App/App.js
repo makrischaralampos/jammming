@@ -3,33 +3,11 @@ import "./App.css";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
+import Spotify from "../../util/Spotify";
 
 function App() {
   // State hooks
-  const [searchResults, setSearchResults] = useState([
-    {
-      id: 1,
-      name: "Track 1",
-      artist: "Artist 1",
-      album: "Album 1",
-      uri: "spotify:track:1",
-    },
-    {
-      id: 2,
-      name: "Track 2",
-      artist: "Artist 2",
-      album: "Album 2",
-      uri: "spotify:track:2",
-    },
-    {
-      id: 3,
-      name: "Track 3",
-      artist: "Artist 3",
-      album: "Album 3",
-      uri: "spotify:track:3",
-    },
-  ]);
-
+  const [searchResults, setSearchResults] = useState([]);
   const [playlistName, setPlaylistName] = useState("New Playlist");
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
@@ -55,22 +33,22 @@ function App() {
 
   const savePlaylist = () => {
     const trackURIs = playlistTracks.map((track) => track.uri);
+    Spotify.savePlaylist(playlistName, trackURIs).then(() => {
+      setPlaylistName("New Playlist");
+      setPlaylistTracks([]);
+    });
+  };
 
-    console.log(`Saving playlist: ${playlistName}`);
-    console.log(`Track URIs: ${trackURIs.join(", ")}`);
-
-    // Simulate saving the playlist
-    // (In a real scenario, this would be an API call to Spotify)
-
-    // Reset playlist after saving
-    setPlaylistName("New Playlist");
-    setPlaylistTracks([]);
+  const search = (term) => {
+    Spotify.search(term).then((tracks) => {
+      setSearchResults(tracks);
+    });
   };
 
   return (
     <div className="App">
       <h1>Jammming</h1>
-      <SearchBar />
+      <SearchBar onSearch={search} />
       <div className="App-playlist">
         <SearchResults searchResults={searchResults} onAdd={addTrack} />
         <Playlist

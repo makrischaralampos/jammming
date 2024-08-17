@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+}
+
+.App-playlist {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}

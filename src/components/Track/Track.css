@@ -1,0 +1,19 @@
+.Track {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.Track-information {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.Track-action {
+  padding: 10px;
+  background-color: #1db954;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

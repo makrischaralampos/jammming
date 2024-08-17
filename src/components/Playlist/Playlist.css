@@ -1,0 +1,11 @@
+.Playlist {
+  width: 45%;
+}
+
+.Playlist-save {
+  padding: 10px 20px;
+  background-color: #1db954;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

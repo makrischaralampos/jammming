@@ -1,5 +1,5 @@
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-const redirectUri = "http://localhost:3000/";
+const redirectUri = "http://localhost:3000";
 let accessToken;
 
 const Spotify = {
@@ -30,11 +30,16 @@ const Spotify = {
 
   search(term) {
     const accessToken = Spotify.getAccessToken();
-    return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+    return fetch(
+      `https://api.spotify.com/v1/search?type=track&q=${encodeURIComponent(
+        term
+      )}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((jsonResponse) => {
         if (!jsonResponse.tracks) {

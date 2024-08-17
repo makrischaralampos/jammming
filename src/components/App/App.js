@@ -13,9 +13,7 @@ function App() {
   ]);
 
   const [playlistName, setPlaylistName] = useState("New Playlist");
-  const [playlistTracks, setPlaylistTracks] = useState([
-    { id: 4, name: "Track 4", artist: "Artist 4", album: "Album 4" },
-  ]);
+  const [playlistTracks, setPlaylistTracks] = useState([]);
 
   // Function to add a track to the playlist
   const addTrack = (track) => {

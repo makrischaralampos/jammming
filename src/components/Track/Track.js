@@ -2,13 +2,13 @@ import React from "react";
 import "./Track.css";
 
 function Track({ track, onAdd, onRemove, isRemoval }) {
-  function handleAdd() {
+  const handleAdd = () => {
     onAdd(track);
-  }
+  };
 
-  function handleRemove() {
+  const handleRemove = () => {
     onRemove(track);
-  }
+  };
 
   return (
     <div className="Track">

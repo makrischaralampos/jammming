@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
@@ -10,6 +10,12 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [playlistName, setPlaylistName] = useState("New Playlist");
   const [playlistTracks, setPlaylistTracks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // New state for loading
+  const [error, setError] = useState(null); // New state for error messages
+
+  useEffect(() => {
+    Spotify.getAccessToken();
+  }, []);
 
   // Function to add a track to the playlist
   const addTrack = (track) => {
@@ -40,9 +46,18 @@ function App() {
   };
 
   const search = (term) => {
-    Spotify.search(term).then((tracks) => {
-      setSearchResults(tracks);
-    });
+    setIsLoading(true); // Start loading
+    setError(null); // Clear any previous error
+    Spotify.search(term)
+      .then((tracks) => {
+        setSearchResults(tracks);
+        setIsLoading(false); // Stop loading
+      })
+      .catch((error) => {
+        console.error("Search failed:", error);
+        setError("Failed to fetch results. Please try again."); // Set error message
+        setIsLoading(false); // Stop loading even if there's an error
+      });
   };
 
   return (
@@ -50,7 +65,12 @@ function App() {
       <h1>Jammming</h1>
       <SearchBar onSearch={search} />
       <div className="App-playlist">
-        <SearchResults searchResults={searchResults} onAdd={addTrack} />
+        <SearchResults
+          searchResults={searchResults}
+          onAdd={addTrack}
+          isLoading={isLoading} // Pass loading state as a prop
+          error={error}
+        />
         <Playlist
           playlistName={playlistName}
           playlistTracks={playlistTracks}

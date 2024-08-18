@@ -1,12 +1,25 @@
 import React from "react";
 import "./SearchResults.css";
 import Tracklist from "../Tracklist/Tracklist";
+import { Puff } from "react-loader-spinner"; // Import the spinner component
 
-function SearchResults({ searchResults, onAdd }) {
+function SearchResults({ searchResults, onAdd, isLoading, error }) {
   return (
     <div className="SearchResults">
       <h2>Results</h2>
-      <Tracklist tracks={searchResults} onAdd={onAdd} isRemoval={false} />
+      {isLoading && (
+        <Puff
+          type="Puff"
+          color="#1DB954"
+          height={100}
+          width={100}
+          timeout={3000}
+        />
+      )}
+      {error && <p className="error-message">{error}</p>}
+      {!isLoading && !error && (
+        <Tracklist tracks={searchResults} onAdd={onAdd} isRemoval={false} />
+      )}
     </div>
   );
 }

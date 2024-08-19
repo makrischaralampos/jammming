@@ -6,7 +6,7 @@ import { Puff } from "react-loader-spinner"; // Import the spinner component
 function SearchResults({ searchResults, onAdd, isLoading, error }) {
   return (
     <div className="SearchResults">
-      <h2>Results</h2>
+      <h2 className="text-center">Results</h2>
       {isLoading && (
         <Puff
           type="Puff"

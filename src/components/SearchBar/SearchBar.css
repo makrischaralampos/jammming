@@ -1,12 +1,12 @@
-.SearchBar {
-  margin: 20px;
+.input-group {
+  width: 80%;
+  margin: 0 auto;
 }
 
-.SearchButton {
+.SearchBar .form-control {
+  width: 50%;
+}
+
+.SearchBar button {
   margin-left: 10px;
-  padding: 10px 20px;
-  background-color: #1db954;
-  border: none;
-  color: white;
-  cursor: pointer;
 }

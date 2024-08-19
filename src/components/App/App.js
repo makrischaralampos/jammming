@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import "../../styles/themes.css"; // Import my custom themes
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
@@ -12,10 +13,23 @@ function App() {
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // New state for loading
   const [error, setError] = useState(null); // New state for error messages
+  const [theme, setTheme] = useState("light-theme");
 
   useEffect(() => {
     Spotify.getAccessToken();
+    // Set theme from localStorage if available
+    const savedTheme = localStorage.getItem("theme") || "light-theme";
+    setTheme(savedTheme);
+    document.body.className = savedTheme;
   }, []);
+
+  // Toggle between light and dark themes
+  const toggleTheme = () => {
+    const newTheme = theme === "light-theme" ? "dark-theme" : "light-theme";
+    setTheme(newTheme);
+    document.body.className = newTheme;
+    localStorage.setItem("theme", newTheme);
+  };
 
   // Function to add a track to the playlist
   const addTrack = (track) => {
@@ -62,22 +76,33 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Jammming</h1>
-      <SearchBar onSearch={search} />
-      <div className="App-playlist">
-        <SearchResults
-          searchResults={searchResults}
-          onAdd={addTrack}
-          isLoading={isLoading} // Pass loading state as a prop
-          error={error}
-        />
-        <Playlist
-          playlistName={playlistName}
-          playlistTracks={playlistTracks}
-          onRemove={removeTrack}
-          onNameChange={updatePlaylistName}
-          onSave={savePlaylist} // Trigger the savePlaylist function
-        />
+      <div className="container">
+        <div className="d-flex justify-content-between align-items-center my-4">
+          <h1 className="text-center">Jammming</h1>
+          <button className="btn btn-outline-secondary" onClick={toggleTheme}>
+            {theme === "light-theme" ? "Dark Mode" : "Light Mode"}
+          </button>
+        </div>
+        <SearchBar onSearch={search} />
+        <div className="row">
+          <div className="col-md-6">
+            <SearchResults
+              searchResults={searchResults}
+              onAdd={addTrack}
+              isLoading={isLoading} // Pass loading state as a prop
+              error={error}
+            />
+          </div>
+          <div className="col-md-6">
+            <Playlist
+              playlistName={playlistName}
+              playlistTracks={playlistTracks}
+              onRemove={removeTrack}
+              onNameChange={updatePlaylistName}
+              onSave={savePlaylist} // Trigger the savePlaylist function
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

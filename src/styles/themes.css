@@ -1,0 +1,33 @@
+/* Base Styles */
+body {
+  font-family: "Arial", sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light theme */
+body.light-theme {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+body.light-theme .card {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+/* Dark Theme */
+body.dark-theme {
+  background-color: #212529;
+  color: #f8f9fa;
+}
+
+body.dark-theme .card {
+  background-color: #343a40;
+  color: #f8f9fa;
+}

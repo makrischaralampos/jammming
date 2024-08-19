@@ -1,11 +1,22 @@
 .Playlist {
-  width: 45%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
 }
 
-.Playlist-save {
-  padding: 10px 20px;
-  background-color: #1db954;
-  border: none;
-  color: white;
-  cursor: pointer;
+.SaveButton {
+  margin: 0 auto;
+}
+
+.scale-up {
+  animation: scaleUp 0.3s ease-in-out forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
 }

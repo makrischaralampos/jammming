@@ -26,11 +26,17 @@ function Track({ track, onAdd, onRemove, isRemoval }) {
       className={`Track ${removing ? "removing" : ""} card my-2`}
     >
       <div className="card-body d-flex justify-content-between align-items-center">
-        <div>
+        <div className="d-flex flex-column align-items-start">
           <h5 className="card-title">{track.name}</h5>
           <p className="card-text">
             {track.artist} | {track.album}
           </p>
+          {track.preview_url && (
+            <audio controls className="mt-2">
+              <source src={track.preview_url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          )}
         </div>
         {isRemoval ? (
           <button className="btn btn-danger" onClick={handleRemove}>

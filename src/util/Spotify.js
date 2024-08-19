@@ -17,7 +17,10 @@ const Spotify = {
       const expiresIn = Number(expiresInMatch[1]);
 
       // Clear the access token after it expires
-      window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
+      window.setTimeout(() => {
+        accessToken = "";
+        window.location.href = "/";
+      }, expiresIn * 1000);
       window.history.pushState("Access Token", null, "/"); // Remove the token from the URL for security
 
       return accessToken;
@@ -51,6 +54,7 @@ const Spotify = {
           artist: track.artists[0].name,
           album: track.album.name,
           uri: track.uri,
+          preview_url: track.preview_url,
         }));
       });
   },
@@ -83,7 +87,7 @@ const Spotify = {
                 method: "POST",
                 body: JSON.stringify({ uris: trackUris }),
               }
-            );
+            ).then(() => playlistId);
           });
       });
   },

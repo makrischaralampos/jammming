@@ -22,6 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false); // New state for loading
   const [error, setError] = useState(null); // New state for error messages
   const [theme, setTheme] = useState("light-theme");
+  const [shareableLink, setShareableLink] = useState("");
 
   useEffect(() => {
     Spotify.getAccessToken();
@@ -63,16 +64,21 @@ function App() {
 
   const savePlaylist = useCallback(() => {
     const trackURIs = playlistTracks.map((track) => track.uri);
-    Spotify.savePlaylist(playlistName, trackURIs).then(() => {
+    Spotify.savePlaylist(playlistName, trackURIs).then((playlistId) => {
       setPlaylistName("New Playlist");
       setPlaylistTracks([]);
+
+      const playlistUrl = `https://open.spotify.com/playlist/${playlistId}`;
+      setShareableLink(playlistUrl);
+
+      alert("Playlist saved and ready to share!");
     });
   }, [playlistName, playlistTracks]);
 
-  const search = useCallback((term) => {
+  const search = useCallback((term, filter) => {
     setIsLoading(true); // Start loading
     setError(null); // Clear any previous error
-    Spotify.search(term)
+    Spotify.search(term, filter)
       .then((tracks) => {
         setSearchResults(tracks);
         setIsLoading(false); // Stop loading
@@ -117,6 +123,7 @@ function App() {
                 onRemove={removeTrack}
                 onNameChange={updatePlaylistName}
                 onSave={savePlaylist} // Trigger the savePlaylist function
+                shareableLink={shareableLink}
               />
             </div>
           </Suspense>

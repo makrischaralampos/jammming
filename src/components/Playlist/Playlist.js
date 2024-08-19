@@ -8,6 +8,7 @@ function Playlist({
   onRemove,
   onNameChange,
   onSave,
+  shareableLink,
 }) {
   const [isSaving, setIsSaving] = useState(false);
 
@@ -19,6 +20,12 @@ function Playlist({
     setIsSaving(true);
     await onSave();
     setIsSaving(false);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(shareableLink).then(() => {
+      alert("Playlist link copied to clipboard!");
+    });
   };
 
   return (
@@ -49,6 +56,48 @@ function Playlist({
         ) : null}
         Save to Spotify
       </button>
+      {shareableLink && (
+        <div className="mt-3">
+          <p className="text-muted">Share your playlist:</p>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control"
+              value={shareableLink}
+              readOnly
+            />
+            <button
+              className="btn btn-outline-secondary"
+              onClick={copyToClipboard}
+            >
+              Copy Link
+            </button>
+          </div>
+          <div className="d-flex justify-content-around mt-2">
+            {/* Social Media Sharing Buttons */}
+            <a
+              href={`https://twitter.com/intent/tweet/url=${encodeURIComponent(
+                shareableLink
+              )}&text=Check%20out%20my%20playlist%20on%20Spotify!`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-info mt-2"
+            >
+              Share on Twitter
+            </a>
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                shareableLink
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary mt-2"
+            >
+              Share on Facebook
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

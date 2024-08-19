@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import "./App.css";
 import "../../styles/themes.css"; // Import my custom themes
 import SearchBar from "../SearchBar/SearchBar";
-import SearchResults from "../SearchResults/SearchResults";
-import Playlist from "../Playlist/Playlist";
 import Spotify from "../../util/Spotify";
+
+const SearchResults = lazy(() => import("../SearchResults/SearchResults"));
+const Playlist = lazy(() => import("../Playlist/Playlist"));
 
 function App() {
   // State hooks
@@ -32,34 +40,36 @@ function App() {
   };
 
   // Function to add a track to the playlist
-  const addTrack = (track) => {
-    if (playlistTracks.find((savedTrack) => savedTrack.id === track.id)) {
-      return;
-    }
-    setPlaylistTracks((prevTracks) => [...prevTracks, track]);
-  };
+  const addTrack = useCallback(
+    (track) => {
+      if (!playlistTracks.find((savedTrack) => savedTrack.id === track.id)) {
+        setPlaylistTracks((prevTracks) => [...prevTracks, track]);
+      }
+    },
+    [playlistTracks]
+  );
 
   // Function to remove a track from the playlist
-  const removeTrack = (track) => {
+  const removeTrack = useCallback((track) => {
     setPlaylistTracks((prevTracks) =>
       prevTracks.filter((savedTrack) => savedTrack.id !== track.id)
     );
-  };
+  }, []);
 
   // Function to update the playlist name
-  const updatePlaylistName = (name) => {
+  const updatePlaylistName = useCallback((name) => {
     setPlaylistName(name);
-  };
+  }, []);
 
-  const savePlaylist = () => {
+  const savePlaylist = useCallback(() => {
     const trackURIs = playlistTracks.map((track) => track.uri);
     Spotify.savePlaylist(playlistName, trackURIs).then(() => {
       setPlaylistName("New Playlist");
       setPlaylistTracks([]);
     });
-  };
+  }, [playlistName, playlistTracks]);
 
-  const search = (term) => {
+  const search = useCallback((term) => {
     setIsLoading(true); // Start loading
     setError(null); // Clear any previous error
     Spotify.search(term)
@@ -72,7 +82,13 @@ function App() {
         setError("Failed to fetch results. Please try again."); // Set error message
         setIsLoading(false); // Stop loading even if there's an error
       });
-  };
+  }, []);
+
+  const memoizedSearchResults = useMemo(() => searchResults, [searchResults]);
+  const memoizedPlaylistTracks = useMemo(
+    () => playlistTracks,
+    [playlistTracks]
+  );
 
   return (
     <div className="App">
@@ -85,23 +101,25 @@ function App() {
         </div>
         <SearchBar onSearch={search} />
         <div className="row">
-          <div className="col-md-6">
-            <SearchResults
-              searchResults={searchResults}
-              onAdd={addTrack}
-              isLoading={isLoading} // Pass loading state as a prop
-              error={error}
-            />
-          </div>
-          <div className="col-md-6">
-            <Playlist
-              playlistName={playlistName}
-              playlistTracks={playlistTracks}
-              onRemove={removeTrack}
-              onNameChange={updatePlaylistName}
-              onSave={savePlaylist} // Trigger the savePlaylist function
-            />
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <div className="col-md-6">
+              <SearchResults
+                searchResults={memoizedSearchResults}
+                onAdd={addTrack}
+                isLoading={isLoading} // Pass loading state as a prop
+                error={error}
+              />
+            </div>
+            <div className="col-md-6">
+              <Playlist
+                playlistName={playlistName}
+                playlistTracks={memoizedPlaylistTracks}
+                onRemove={removeTrack}
+                onNameChange={updatePlaylistName}
+                onSave={savePlaylist} // Trigger the savePlaylist function
+              />
+            </div>
+          </Suspense>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import "./Playlist.css";
 import Tracklist from "../Tracklist/Tracklist";
 
@@ -101,5 +102,14 @@ function Playlist({
     </div>
   );
 }
+
+Playlist.propTypes = {
+  playlistName: PropTypes.string.isRequired,
+  playlistTracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onNameChange: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  shareableLink: PropTypes.string,
+};
 
 export default Playlist;

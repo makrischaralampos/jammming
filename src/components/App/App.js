@@ -10,19 +10,25 @@ import "./App.css";
 import "../../styles/themes.css"; // Import my custom themes
 import SearchBar from "../SearchBar/SearchBar";
 import Spotify from "../../util/Spotify";
+import { useSpotifySearch } from "../../hooks/useSpotifySearch";
+import { usePlaylist } from "../../hooks/usePlaylist";
 
 const SearchResults = lazy(() => import("../SearchResults/SearchResults"));
 const Playlist = lazy(() => import("../Playlist/Playlist"));
 
 function App() {
   // State hooks
-  const [searchResults, setSearchResults] = useState([]);
-  const [playlistName, setPlaylistName] = useState("New Playlist");
-  const [playlistTracks, setPlaylistTracks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // New state for loading
-  const [error, setError] = useState(null); // New state for error messages
   const [theme, setTheme] = useState("light-theme");
   const [shareableLink, setShareableLink] = useState("");
+  const { searchResults, error, isLoading, search } = useSpotifySearch();
+  const {
+    playlistName,
+    playlistTracks,
+    addTrack,
+    removeTrack,
+    updatePlaylistName,
+    resetPlaylist,
+  } = usePlaylist();
 
   useEffect(() => {
     Spotify.getAccessToken();
@@ -40,55 +46,17 @@ function App() {
     localStorage.setItem("theme", newTheme);
   };
 
-  // Function to add a track to the playlist
-  const addTrack = useCallback(
-    (track) => {
-      if (!playlistTracks.find((savedTrack) => savedTrack.id === track.id)) {
-        setPlaylistTracks((prevTracks) => [...prevTracks, track]);
-      }
-    },
-    [playlistTracks]
-  );
-
-  // Function to remove a track from the playlist
-  const removeTrack = useCallback((track) => {
-    setPlaylistTracks((prevTracks) =>
-      prevTracks.filter((savedTrack) => savedTrack.id !== track.id)
-    );
-  }, []);
-
-  // Function to update the playlist name
-  const updatePlaylistName = useCallback((name) => {
-    setPlaylistName(name);
-  }, []);
-
   const savePlaylist = useCallback(() => {
     const trackURIs = playlistTracks.map((track) => track.uri);
     Spotify.savePlaylist(playlistName, trackURIs).then((playlistId) => {
-      setPlaylistName("New Playlist");
-      setPlaylistTracks([]);
+      resetPlaylist();
 
       const playlistUrl = `https://open.spotify.com/playlist/${playlistId}`;
       setShareableLink(playlistUrl);
 
       alert("Playlist saved and ready to share!");
     });
-  }, [playlistName, playlistTracks]);
-
-  const search = useCallback((term, filter) => {
-    setIsLoading(true); // Start loading
-    setError(null); // Clear any previous error
-    Spotify.search(term, filter)
-      .then((tracks) => {
-        setSearchResults(tracks);
-        setIsLoading(false); // Stop loading
-      })
-      .catch((error) => {
-        console.error("Search failed:", error);
-        setError("Failed to fetch results. Please try again."); // Set error message
-        setIsLoading(false); // Stop loading even if there's an error
-      });
-  }, []);
+  }, [playlistName, playlistTracks, resetPlaylist]);
 
   const memoizedSearchResults = useMemo(() => searchResults, [searchResults]);
   const memoizedPlaylistTracks = useMemo(

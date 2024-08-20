@@ -40,11 +40,19 @@ function Track({ track, onAdd, onRemove, isRemoval }) {
           )}
         </div>
         {isRemoval ? (
-          <button className="btn btn-danger" onClick={handleRemove}>
+          <button
+            className="btn btn-danger"
+            onClick={handleRemove}
+            aria-label="Remove track from the playlist"
+          >
             -
           </button>
         ) : (
-          <button className="btn btn-primary" onClick={handleAdd}>
+          <button
+            className="btn btn-primary"
+            onClick={handleAdd}
+            aria-label="Add track to the playlist"
+          >
             +
           </button>
         )}

@@ -38,6 +38,7 @@ function Playlist({
           value={playlistName}
           onChange={handleNameChange}
           placeholder="Playlist Name"
+          aria-label="Change the playlist name"
         />
       </div>
       <Tracklist tracks={playlistTracks} onRemove={onRemove} isRemoval={true} />
@@ -47,6 +48,7 @@ function Playlist({
         } SaveButton`}
         onClick={handleSave}
         disabled={isSaving}
+        aria-label="Save playlist to Spotify"
       >
         {isSaving ? (
           <span
@@ -70,6 +72,7 @@ function Playlist({
             <button
               className="btn btn-outline-secondary"
               onClick={copyToClipboard}
+              aria-label="Copy link to clipboard"
             >
               Copy Link
             </button>

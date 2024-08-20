@@ -24,11 +24,13 @@ function SearchBar({ onSearch }) {
           placeholder="Enter a song, album, or artist"
           value={term}
           onChange={handleTermChange}
+          aria-label="Search for tracks"
         />
         <div className="input-group-append">
           <button
             className="btn btn-outline-success d-flex align-items-center"
             onClick={search}
+            aria-label="Search the Spotify library"
           >
             {isLoading ? (
               <span

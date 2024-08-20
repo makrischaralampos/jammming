@@ -69,7 +69,11 @@ function App() {
       <div className="container">
         <div className="d-flex justify-content-between align-items-center my-4">
           <h1 className="text-center">Jammming</h1>
-          <button className="btn btn-outline-secondary" onClick={toggleTheme}>
+          <button
+            className="btn btn-outline-secondary"
+            onClick={toggleTheme}
+            aria-label="Change from light to dark mode and vice versa"
+          >
             {theme === "light-theme" ? "Dark Mode" : "Light Mode"}
           </button>
         </div>

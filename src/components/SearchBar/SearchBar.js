@@ -28,7 +28,7 @@ function SearchBar({ onSearch }) {
         />
         <div className="input-group-append">
           <button
-            className="btn btn-outline-success d-flex align-items-center"
+            className="btn btn-success d-flex align-items-center"
             onClick={search}
             aria-label="Search the Spotify library"
           >

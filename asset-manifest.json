@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/jammming/static/css/main.4453c2bd.css",
+    "main.js": "/jammming/static/js/main.935b1635.js",
+    "static/css/785.01aec7bf.chunk.css": "/jammming/static/css/785.01aec7bf.chunk.css",
+    "static/js/785.bbca5ba4.chunk.js": "/jammming/static/js/785.bbca5ba4.chunk.js",
+    "static/css/694.b6f4cfc7.chunk.css": "/jammming/static/css/694.b6f4cfc7.chunk.css",
+    "static/js/694.82211c86.chunk.js": "/jammming/static/js/694.82211c86.chunk.js",
+    "static/js/954.5aa9dc5d.chunk.js": "/jammming/static/js/954.5aa9dc5d.chunk.js",
+    "index.html": "/jammming/index.html",
+    "main.4453c2bd.css.map": "/jammming/static/css/main.4453c2bd.css.map",
+    "main.935b1635.js.map": "/jammming/static/js/main.935b1635.js.map",
+    "785.01aec7bf.chunk.css.map": "/jammming/static/css/785.01aec7bf.chunk.css.map",
+    "785.bbca5ba4.chunk.js.map": "/jammming/static/js/785.bbca5ba4.chunk.js.map",
+    "694.b6f4cfc7.chunk.css.map": "/jammming/static/css/694.b6f4cfc7.chunk.css.map",
+    "694.82211c86.chunk.js.map": "/jammming/static/js/694.82211c86.chunk.js.map",
+    "954.5aa9dc5d.chunk.js.map": "/jammming/static/js/954.5aa9dc5d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4453c2bd.css",
+    "static/js/main.935b1635.js"
+  ]
+}

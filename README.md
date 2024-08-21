@@ -60,7 +60,7 @@ If you'd like to contribute to Jammming, feel free to fork the repository, make 
 
 ## License
 
-This project is licensed undet the MIT License. See the LICENSE file for more details.
+This project is licensed undet the MIT License. See the [LICENSE](/LICENSE) file for more details.
 
 ## Contact
 

@@ -64,7 +64,7 @@ This project is licensed undet the MIT License. See the LICENSE file for more de
 
 ## Contact
 
-If you have any questions or feedback, feel free to reach out via GitHub issues or by contacting [mchsooter23@gmail.com](#mailto:mcshooter23@gmail.com).
+If you have any questions or feedback, feel free to reach out via GitHub issues or by contacting [mchsooter23@gmail.com](mailto:mcshooter23@gmail.com).
 
 ---
 
